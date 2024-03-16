@@ -1,0 +1,30 @@
+mariadb:
+  image: mariadb:10.6.4-focal
+  port: 3306
+  rootPassword: rootpassword 
+  nameDatabase: wordpress_db
+  user: wordpress_user
+  password: userpassword
+
+wordpress:
+  image: wordpress:latest
+  port: 9000
+  dbHost: mariadb
+  user: wordpress_user
+  wppassword: wordpresspassword
+  name: wordpress_db
+
+nginx:
+  image: nginx:stable-alpine
+  ports:
+    http: 80
+    https: 443
+  sslPath: /etc/nginx/ssl
+  configPath: /etc/nginx/conf.d/default.conf
+
+# Configuration des volumes persistants
+volumes:
+  wordpress_data:
+    size: 1Gi
+  db_data:
+    size: 1Gi
